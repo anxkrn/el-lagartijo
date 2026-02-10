@@ -1,0 +1,65 @@
+/* Variables de colores basadas en el logo de El Lagartijo */
+:root {
+  --color-dark: #2c2416; /* Negro/café oscuro */
+  --color-dark-brown: #3d2f1f;
+  --color-leather: #d4c4a8; /* Beige/cuero */
+  --color-beige: #f5f0e6;
+  --color-accent: #5d4037; /* Verde oscuro/vino como acento */
+  --color-white: #ffffff;
+  --color-text-dark: #2c2416;
+  --color-text-light: #f5f0e6;
+  
+  /* Tipografías */
+  --font-title: 'Playfair Display', 'Georgia', serif; /* Estilo western/artesanal */
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif; /* Limpia y moderna */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-dark);
+  background-color: var(--color-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Utilidades */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.section {
+  padding: 3rem 0;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 4rem 0;
+  }
+}
