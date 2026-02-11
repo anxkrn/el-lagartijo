@@ -1,52 +1,88 @@
 .hero {
-  background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-dark-brown) 100%);
-  color: var(--color-text-light);
-  padding: 4rem 1rem;
-  text-align: center;
   position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1rem;
   overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  background: var(--color-graphite);
   background-image: 
-    radial-gradient(circle at 20% 50%, rgba(212, 196, 168, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(212, 196, 168, 0.1) 0%, transparent 50%);
-  pointer-events: none;
+    linear-gradient(160deg, rgba(35, 35, 35, 0.97) 0%, rgba(42, 37, 32, 0.98) 50%, rgba(35, 35, 35, 0.97) 100%),
+    radial-gradient(ellipse 80% 50% at 50% 120%, rgba(168, 129, 91, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(196, 165, 116, 0.08) 0%, transparent 45%);
 }
 
 .hero-content {
-  max-width: 800px;
-  margin: 0 auto;
   position: relative;
   z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-honey-light);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: heroFadeUp 0.8s var(--transition-smooth) 0.2s forwards;
 }
 
 .hero-title {
-  font-size: 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.25rem);
   font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-white);
   margin-bottom: 1rem;
-  color: var(--color-text-light);
-  line-height: 1.2;
-  animation: fadeInUp 0.8s ease;
+  opacity: 0;
+  animation: heroFadeUp 0.8s var(--transition-smooth) 0.35s forwards;
 }
 
 .hero-subtitle {
-  font-size: 1.125rem;
-  color: var(--color-leather);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--color-honey-muted);
   font-weight: 400;
-  animation: fadeInUp 0.8s ease 0.2s both;
+  line-height: 1.6;
+  max-width: 540px;
+  margin: 0 auto 1.5rem;
+  opacity: 0;
+  animation: heroFadeUp 0.8s var(--transition-smooth) 0.5s forwards;
 }
 
-@keyframes fadeInUp {
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-honey);
+  color: var(--color-white);
+  padding: 0.875rem 1.75rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  opacity: 0;
+  animation: heroFadeUp 0.8s var(--transition-smooth) 0.65s forwards;
+  text-decoration: none;
+}
+
+.hero-cta:hover {
+  background: var(--color-honey-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes heroFadeUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -56,20 +92,13 @@
 
 @media (min-width: 768px) {
   .hero {
-    padding: 6rem 1rem;
-  }
-
-  .hero-title {
-    font-size: 3rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.25rem;
+    min-height: 75vh;
+    padding: 5rem 1rem;
   }
 }
 
 @media (min-width: 1024px) {
-  .hero-title {
-    font-size: 3.5rem;
+  .hero {
+    min-height: 80vh;
   }
 }

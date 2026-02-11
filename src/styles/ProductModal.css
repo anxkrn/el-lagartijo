@@ -1,0 +1,200 @@
+.product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 35, 35, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+  animation: modalFadeIn 0.25s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.product-modal {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  max-width: 440px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  animation: modalSlideUp 0.35s var(--transition-smooth);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.product-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-graphite);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 2;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.product-modal-close:hover {
+  background: var(--color-graphite);
+  color: var(--color-white);
+}
+
+.product-modal-body {
+  flex-shrink: 0;
+  padding: 1.5rem 1.5rem 1rem;
+  padding-top: 3rem;
+  border-bottom: 1px solid var(--color-cream-dark);
+}
+
+.product-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-graphite);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.product-modal-description {
+  font-size: 0.9375rem;
+  color: var(--color-text-soft);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.product-modal-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-modal-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.35rem 0.65rem;
+  border-radius: 20px;
+  background: var(--color-honey-muted);
+  color: var(--color-graphite);
+}
+
+.product-modal-price {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--color-honey);
+}
+
+.product-modal-gallery {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--color-cream);
+}
+
+.product-modal-images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 1rem;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.product-modal-image-cell {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.product-modal-image-cell .product-modal-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-modal-placeholder {
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  color: var(--color-honey-muted);
+  font-size: 0.875rem;
+}
+
+.product-modal-placeholder svg {
+  opacity: 0.6;
+}
+
+.product-modal-footer {
+  flex-shrink: 0;
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.product-modal-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  background: var(--color-whatsapp);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  text-decoration: none;
+}
+
+.product-modal-cta:hover {
+  background: var(--color-whatsapp-hover);
+  transform: translateY(-1px);
+}
+
+@media (min-width: 640px) {
+  .product-modal {
+    max-width: 520px;
+  }
+
+  .product-modal-images-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-height: 240px;
+  }
+}

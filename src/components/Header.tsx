@@ -5,10 +5,6 @@ import '../styles/Header.css';
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -20,27 +16,33 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-container">
-        <button 
-          className="menu-toggle" 
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
+        <button
+          className="menu-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-expanded={menuOpen}
+          aria-label="Abrir o cerrar menú"
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span />
+          <span />
+          <span />
         </button>
 
         <div className="logo-container">
-          <img src={logo} alt="El Lagartijo Logo" className="logo-img" />
-          <span className="logo-text">El Lagartijo</span>
+          <a href="#inicio" className="logo-link" onClick={() => scrollToSection('inicio')}>
+            <img src={logo} alt="El Lagartijo" className="logo-img" />
+            <span className="logo-text">El Lagartijo</span>
+          </a>
         </div>
 
-        <nav className={`nav ${menuOpen ? 'nav-open' : ''}`}>
+        <nav className={`nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Principal">
           <a href="#inicio" onClick={() => scrollToSection('inicio')}>
             Inicio
           </a>
           <a href="#catalogo" onClick={() => scrollToSection('catalogo')}>
             Catálogo
+          </a>
+          <a href="#personaliza" onClick={() => scrollToSection('personaliza')}>
+            Personaliza
           </a>
           <a href="#contacto" onClick={() => scrollToSection('contacto')}>
             Contacto

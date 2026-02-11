@@ -1,0 +1,10 @@
+.section-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s var(--transition-smooth), transform 0.5s var(--transition-smooth);
+}
+
+.section-reveal.section-reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}

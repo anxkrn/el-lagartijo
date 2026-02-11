@@ -1,79 +1,132 @@
+import { useState, useMemo } from 'react';
 import ProductCard from './ProductCard';
+import ProductModal from './ProductModal';
+import SectionReveal from './SectionReveal';
+import { products, CATEGORIES } from '../data/products';
+import type { Product } from '../data/products';
+import type { CategoryFilter } from '../data/products';
+import catalogoBg from '../assets/catalogo-bg.png';
+import catalogoHeaderBg from '../assets/catalogo-header-bg.png';
 import '../styles/Catalog.css';
 
-const products = [
-  {
-    id: 1,
-    name: 'Bozales',
-    description: 'Bozales artesanales de alta calidad, elaborados con materiales resistentes y duraderos.',
-    handmade: true,
-    customizable: true
-  },
-  {
-    id: 2,
-    name: 'Falsas Riendas',
-    description: 'Falsas riendas personalizadas en diferentes colores y diseños para tu caballo.',
-    handmade: true,
-    customizable: true
-  },
-  {
-    id: 3,
-    name: 'Gamarras',
-    description: 'Gamarras artesanales con acabados únicos y materiales de primera calidad.',
-    handmade: true,
-    customizable: true
-  },
-  {
-    id: 4,
-    name: 'Riendas',
-    description: 'Riendas hechas a mano con atención al detalle y resistencia garantizada.',
-    handmade: true,
-    customizable: true
-  },
-  {
-    id: 5,
-    name: 'Llaveros',
-    description: 'Llaveros personalizados con diseños únicos y materiales duraderos.',
-    handmade: true,
-    customizable: true
-  },
-  {
-    id: 6,
-    name: 'Sogas de Plástico',
-    description: 'Sogas de plástico de alta resistencia, disponibles en diferentes colores.',
-    handmade: true,
-    customizable: true
-  },
-  {
-    id: 7,
-    name: 'Otros Productos Personalizados',
-    description: 'Creamos productos ecuestres personalizados según tus necesidades específicas.',
-    handmade: true,
-    customizable: true
-  }
-];
-
 const Catalog = () => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [activeFilter, setActiveFilter] = useState<CategoryFilter>('todos');
+
+  const filteredProducts = useMemo(() => {
+    if (activeFilter === 'todos') return products;
+    return products.filter((p) => p.category === activeFilter);
+  }, [activeFilter]);
+
+  const displayItems = useMemo(() => {
+    const items: { product: Product; imageIndex: number }[] = [];
+    const expandByImage = activeFilter !== 'todos';
+    filteredProducts.forEach((product) => {
+      if (product.images.length === 0) {
+        items.push({ product, imageIndex: 0 });
+      } else if (expandByImage) {
+        product.images.forEach((_, idx) => {
+          items.push({ product, imageIndex: idx });
+        });
+      } else {
+        items.push({ product, imageIndex: 0 });
+      }
+    });
+    return items;
+  }, [filteredProducts, activeFilter]);
+
+  const groupedByProduct = useMemo(() => {
+    const groups = new Map<number, { product: Product; items: { product: Product; imageIndex: number }[] }>();
+    displayItems.forEach((item) => {
+      const existing = groups.get(item.product.id);
+      if (existing) {
+        existing.items.push(item);
+      } else {
+        groups.set(item.product.id, { product: item.product, items: [item] });
+      }
+    });
+    return Array.from(groups.values());
+  }, [displayItems]);
+
+  const expandByImage = activeFilter !== 'todos';
+
   return (
-    <section id="catalogo" className="catalog section">
-      <div className="container">
-        <h2 className="catalog-title">Nuestros Productos</h2>
-        <p className="catalog-subtitle">
-          Artículos ecuestres hechos a mano con dedicación y pasión
-        </p>
-        <div className="products-grid">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              name={product.name}
-              description={product.description}
-              handmade={product.handmade}
-              customizable={product.customizable}
-            />
-          ))}
-        </div>
+    <>
+      <div id="inicio">
+        <SectionReveal>
+          <section
+            id="catalogo"
+            className="catalog section"
+            style={{ backgroundImage: `url(${catalogoBg})` }}
+          >
+            <div className="catalog-overlay" />
+            <div
+              className="catalog-header"
+              style={{ backgroundImage: `url(${catalogoHeaderBg})` }}
+            >
+              <div className="catalog-header-overlay" />
+              <div className="container catalog-inner">
+                <h2 className="catalog-title">Nuestros productos</h2>
+                <p className="catalog-subtitle">
+                  Artículos ecuestres hechos a mano con dedicación. Calidad, resistencia y estilo en
+                  cada pieza.
+                </p>
+                <div className="catalog-filters">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    className={`catalog-filter-btn ${activeFilter === cat.id ? 'active' : ''}`}
+                    onClick={() => setActiveFilter(cat.id)}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+                </div>
+              </div>
+            </div>
+            <div className="container catalog-inner catalog-products-wrap">
+              {expandByImage ? (
+                groupedByProduct.map(({ product, items }) => (
+                  <div key={product.id} className="catalog-product-group">
+                    <div className="catalog-section-header">
+                      <h3 className="catalog-section-title">{product.name}</h3>
+                      <p className="catalog-section-description">{product.description}</p>
+                    </div>
+                    <div className="products-grid">
+                      {items.map(({ product: p, imageIndex }) => (
+                        <ProductCard
+                          key={`${p.id}-${imageIndex}`}
+                          product={p}
+                          imageIndex={imageIndex}
+                          compact
+                          onSelect={setSelectedProduct}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="products-grid">
+                  {displayItems.map(({ product, imageIndex }) => (
+                    <ProductCard
+                      key={`${product.id}-${imageIndex}`}
+                      product={product}
+                      imageIndex={imageIndex}
+                      onSelect={setSelectedProduct}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        </SectionReveal>
       </div>
-    </section>
+      <ProductModal
+        product={selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+      />
+    </>
   );
 };
 
